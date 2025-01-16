@@ -2,6 +2,7 @@ package com.galvao.projeto.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,41 +11,30 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+import com.galvao.projeto.service.PessoaService;
 
-@RequestMapping("/pessoa")
 
-public class PessoaController {
+public class PessoaController<RequestPessoa> {
 	
-	@Autowired
-	private PessoaRepository
+	@Autowired	private PessoaService
 	
 @GetMapping
+public ResponseEntity selecionar(@PathVariable Integer RequestBody @Valid RequestPessoa data) {
+		Pessoa pessoa = pessoaService.getAllPessoa(id);
+	pessoaService.getAllPessoa();	
+}
+@PostMapping
+public ResponseEntity criar(@PathVarible Integer @RequestBody @Valid RequestPessoa data) {
+	pessoaService.registerPessoa();	
+}
 
-public ResponseEntity getAllPessoa() {
-		var allPessoa = repository.findAll();
-	return ResponseEntity.ok(body: "deu ok");
-	
+@PutMapping("/{id}")
+public ResponseEntity alterar(@RequestBody @Valid RequestPessoa) {
+	pessoaService.updatePessoa();
 }
 	
-	@PostMapping
-	public ResponseEntity registerPessoa(@PathVarible Integer @RequestBody @Valid RequestPessoa data) {
-		System.out.Println(data);
-		repository.save(newPessoa);
-		return ResponseEntity.ok().build();
-		
-	}
-	
-	@PutMapping("/{id}")
-	public ResponseEntity updatePessoa(@RequestBody @Valid RequestPessoa) {
-		Pessoa pessoa = repository.getReferenceById();
-		pessoa.setName(data.name());
-		pessoa.setIdade(data.idade());
-		return ResponseEntity.ok(pessoa);
-	}
-	
-	@DeleteMapping(path = "/{id}")
-	public ResponseEntity deletePessoa(@PathVariable int id) {
-		pessoaRepository.deleteById(id);
+@DeleteMapping(path = "/{id}")
+public ResponseEntity deletar(@PathVariable int id) {
+	pessoaService.deletePessoa();
 	}
 }
